@@ -35,7 +35,7 @@ namespace PatientManagementSystem
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("FlightPlannerConnection")));
+            options.UseSqlServer(Configuration.GetConnectionString("RePharma")));
 
             services.AddScoped<ApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
@@ -55,12 +55,14 @@ namespace PatientManagementSystem
 
             app.UseHttpsRedirection();
 
+            app.UseRouting();
+
             app.UseAuthorization();
 
-
-            app.MapControllers();
-
-            app.Run();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
