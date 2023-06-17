@@ -9,16 +9,16 @@ using PatientManagementSystem.Data;
 
 namespace PatientManagementSystem
 {
-    public class Startup
-    {
-        public IConfiguration Configuration { get; }
-
-        public Startup(IConfiguration configuration)
+        public class Startup
         {
-            Configuration = configuration;
-        }
+            public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
+            public Startup(IConfiguration configuration)
+            {
+                Configuration = configuration;
+            }
+
+            public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

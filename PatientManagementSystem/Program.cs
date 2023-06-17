@@ -1,35 +1,45 @@
-namespace PatientManagementSystem
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+using PatientManagementSystem.Data;
 
-            // Add services to the container.
+        var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+builder.Services.AddCors(options =>
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+                options.AddPolicy("CorsPolicy", builder =>
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
 
-            app.UseHttpsRedirection();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("RePharma")));
 
-            app.UseAuthorization();
+builder.Services.AddScoped<ApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
+builder.Services.AddControllersWithViews();
 
-            app.MapControllers();
+var app = builder.Build();
 
-            app.Run();
-        }
-    }
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    app.UseCors(options => options.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 }
+
+app.UseHttpsRedirection();
+
+            app.UseRouting();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
