@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PatientManagementSystem.Core.Models;
-using PatientManagementSystem.Data;
-using PatientManagementSystem;
-using System.Collections.Generic;
 
 namespace PatientManagementSystem.Data
 {

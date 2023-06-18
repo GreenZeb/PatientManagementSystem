@@ -5,10 +5,6 @@ using NUnit.Framework;
 using PatientManagementSystem.Controllers;
 using PatientManagementSystem.Core.Models;
 using PatientManagementSystem.Data;
-using FluentAssertions.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PatientManagementSystem.Tests
 {
