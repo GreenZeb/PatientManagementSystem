@@ -3,11 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using PatientManagementSystem.Core.Models;
 using PatientManagementSystem.Data;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace PatientManagementSystem.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     public class ApiController : ControllerBase
     {
@@ -18,21 +16,22 @@ namespace PatientManagementSystem.Controllers
             _context = context;
         }
 
-        [HttpGet("api/patients")]
+        [HttpGet("patients")]
         public async Task<IActionResult> GetAllPatients()
         {
             var patients = await _context.Patients.ToListAsync();
             return Ok(patients);
         }
 
-        [HttpGet("api/doctors/{doctorId}/patients")]
+        [HttpGet("doctors/{doctorId}/patients")]
+        //  [HttpGet("patients?doctorId=${doctorId}/patients")]
         public async Task<IActionResult> GetDoctorPatients(int doctorId)
         {
             var patients = await _context.Patients.Where(p => p.DoctorId == doctorId).ToListAsync();
             return Ok(patients);
         }
 
-        [HttpPost("api/patients")]
+        [HttpPost("patients")]
         public async Task<IActionResult> AddPatient([FromBody] Patient patient)
         {
             if (ModelState.IsValid)
@@ -47,7 +46,7 @@ namespace PatientManagementSystem.Controllers
             }
         }
 
-        [HttpGet("api/patients/{id}")]
+        [HttpGet("patients/{id}")]
         public async Task<IActionResult> GetPatient(int id)
         {
             var patient = await _context.Patients.FindAsync(id);
